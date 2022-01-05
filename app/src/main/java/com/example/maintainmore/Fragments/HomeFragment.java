@@ -29,7 +29,7 @@ public class HomeFragment extends Fragment implements ServicesAdapter.viewHolder
     public HomeFragment() {
         // Required empty public constructor
     }
-    RecyclerView recyclerView_PersonalServices, getRecyclerView_HomeServices;
+    RecyclerView recyclerView_PersonalServices, recyclerView_HomeServices, recyclerView_HomeAppliances;
     SliderView imageSliderCarousel;
 
     ArrayList<CardModels> PersonalServiceCardModels = new ArrayList<>();
@@ -43,7 +43,8 @@ public class HomeFragment extends Fragment implements ServicesAdapter.viewHolder
 
         imageSliderCarousel = view.findViewById(R.id.imageSliderCarousel);
         recyclerView_PersonalServices = view.findViewById(R.id.recycleView_PersonalServices);
-        getRecyclerView_HomeServices = view.findViewById(R.id.recycleView_HomeServices);
+        recyclerView_HomeServices = view.findViewById(R.id.recycleView_HomeServices);
+        recyclerView_HomeAppliances = view.findViewById(R.id.recycleView_HomeAppliances);
 
 
 
@@ -100,10 +101,24 @@ public class HomeFragment extends Fragment implements ServicesAdapter.viewHolder
         HomeServiceCardModels.add(new CardModels(R.drawable.common_google_signin_btn_icon_dark, "Google is a service"));
 
         ServicesAdapter homeServicesAdapter = new ServicesAdapter(HomeServiceCardModels, getContext(),this);
-        getRecyclerView_HomeServices.setAdapter(homeServicesAdapter);
+        recyclerView_HomeServices.setAdapter(homeServicesAdapter);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false );
-        getRecyclerView_HomeServices.setLayoutManager(layoutManager);
+        recyclerView_HomeServices.setLayoutManager(layoutManager);
+
+
+        ArrayList<CardModels> HomeAppliancesCardModels = new ArrayList<>();
+
+        HomeAppliancesCardModels.add(new CardModels(R.drawable.grapefruit, "Google"));
+        HomeAppliancesCardModels.add(new CardModels(R.drawable.common_google_signin_btn_icon_dark, "Google"));
+        HomeAppliancesCardModels.add(new CardModels(R.drawable.common_google_signin_btn_icon_dark, "Google is a service"));
+
+        ServicesAdapter homeAppliancesAdapter= new ServicesAdapter(HomeAppliancesCardModels, getContext(),this);
+        recyclerView_HomeAppliances.setAdapter(homeAppliancesAdapter);
+
+        LinearLayoutManager HomeAppliancesLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false );
+        recyclerView_HomeAppliances.setLayoutManager(HomeAppliancesLayoutManager);
+
 
 
         return view;
@@ -112,8 +127,8 @@ public class HomeFragment extends Fragment implements ServicesAdapter.viewHolder
 
     @Override
     public void onServiceClick(int position) {
+        String name = PersonalServiceCardModels.get(position).getName();
 
-
-        Toast.makeText(getContext(),"Item Clicked  " + position , Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(),"Item Clicked  " + position + " " + name , Toast.LENGTH_SHORT).show();
     }
 }
