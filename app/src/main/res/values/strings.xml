@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">Maintain More</string>
+
+    <string name="login">Login</string>
+    <string name="signup">Signup</string>
+
+    <string name="email">Enter your Email</string>
+    <string name="password">Enter your Password</string>
+
+    <string name="forgot_password">Forgot Password</string>
+
+    <string name="fullName">Enter your full name</string>
+    <string name="rePassword">Enter your password again</string>
+
+    <string name="noAccount">Don\'t have Account ?</string>
+    <string name="haveAccount">Already have account</string>
+
+    <string name="skip">Skip >></string>
+    <string name="showMap">Show Map</string>
+
+    <string name="title_activity_maps">MapsActivity</string>
+
+    <string name="personal_services">Personal Services</string>
+    <string name="home_services">Home Services</string>
+    <string name="home_appliance">Home Appliance</string>
+
+    <string name="todo">TODO</string>
+    <string name="cardText">Card Text</string>
+    <string name="sampleText">This is Sample text</string>
+
+    <string name="home">Home</string>
+    <string name="profile">Profile</string>
+    <string name="booking">Booking</string>
+
+    <string name="empty_booking">Nothing ate</string>
+    <string name="profile_text">Profile will be display here</string>
+
+</resources>
