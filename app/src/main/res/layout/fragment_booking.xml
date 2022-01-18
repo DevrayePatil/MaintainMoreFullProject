@@ -6,12 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".Fragments.BookingFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/empty_booking"
-        android:textSize="36sp"
+        android:textSize="@dimen/empty_fragment_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

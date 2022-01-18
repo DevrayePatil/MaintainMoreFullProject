@@ -31,8 +31,16 @@
     <string name="home">Home</string>
     <string name="profile">Profile</string>
     <string name="booking">Booking</string>
+    <string name="notification">Notifications</string>
 
     <string name="empty_booking">Nothing ate</string>
     <string name="profile_text">Profile will be display here</string>
+    <string name="no_notification">No Notifications to Show</string>
+    <string name="profile_fragment">Profile Fragment</string>
+    <string name="logout">Logout</string>
+    <string name="delete_account">Delete Account</string>
+    <string name="delete_account_massage">Deleting this Account will remove everything from our system
+        and you won\'t be able to access your information</string>
+
 
 </resources>

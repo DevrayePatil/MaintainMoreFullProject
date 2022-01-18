@@ -24,10 +24,8 @@
     <style name="Theme.MaintainMore.Splash" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/color_splashScreenBackground</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
-        <item name="windowSplashScreenIconBackgroundColor">@color/color_splashScreenIconBackground</item>
         <item name="postSplashScreenTheme">@style/Theme.MaintainMore</item>
     </style>
-
 
     <style name="ShapeAppearance.App.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
         <item name="cornerFamily">rounded</item>

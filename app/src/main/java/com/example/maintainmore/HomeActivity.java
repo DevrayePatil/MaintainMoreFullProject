@@ -1,20 +1,21 @@
 package com.example.maintainmore;
 
+import android.os.Bundle;
+import android.widget.LinearLayout;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.splashscreen.SplashScreen;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-
-import android.os.Bundle;
-
-import android.widget.LinearLayout;
 
 import com.example.maintainmore.Fragments.BookingFragment;
 import com.example.maintainmore.Fragments.HomeFragment;
+import com.example.maintainmore.Fragments.NotificationsFragment;
 import com.example.maintainmore.Fragments.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 
 
 public class HomeActivity extends AppCompatActivity {
@@ -50,29 +51,38 @@ public class HomeActivity extends AppCompatActivity {
 
 
     public BottomNavigationView.OnNavigationItemSelectedListener itemSelected = item -> {
+
+        Fragment setFragment = null;
+
         if (item.getItemId() == R.id.home){
-
-            HomeFragment homeFragment = new HomeFragment();
-            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragmentContainer, homeFragment);
-            fragmentTransaction.commit();
-
-        }
-        else if(item.getItemId() == R.id.booking){
-            BookingFragment bookingFragment = new BookingFragment();
-            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragmentContainer, bookingFragment);
-            fragmentTransaction.commit();
-
-
+            setFragment = new HomeFragment();
+        } else if(item.getItemId() == R.id.booking){
+            setFragment = new BookingFragment();
         }else if(item.getItemId() == R.id.profile){
-
-            ProfileFragment profileFragment = new ProfileFragment();
-            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragmentContainer, profileFragment);
-            fragmentTransaction.commit();
+            setFragment = new ProfileFragment();
+        }else if(item.getItemId() == R.id.notification){
+            setFragment = new NotificationsFragment();
         }
+
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        assert setFragment != null;
+        fragmentTransaction.replace(R.id.fragmentContainer, setFragment);
+        fragmentTransaction.commit();
 
         return true;
     };
+
+    @Override
+    public void onBackPressed() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setIcon(R.drawable.ic_exit);
+        builder.setTitle("Exit");
+        builder.setMessage("Do you want to exit");
+        builder.setPositiveButton("Yes", (dialogInterface, i) -> finishAffinity());
+        builder.setNegativeButton("No", (dialogInterface, i) -> dialogInterface.dismiss());
+        builder.show();
+
+
+    }
 }

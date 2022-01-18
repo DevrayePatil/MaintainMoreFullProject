@@ -6,15 +6,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragments.HomeFragment">
 
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/searchView"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/searchViewContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:background="@drawable/search_view_background"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+
 
     <ScrollView
         android:id="@+id/scrollView"
@@ -24,7 +23,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchView">
+        app:layout_constraintTop_toBottomOf="@+id/searchViewContainer">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

@@ -11,5 +11,6 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
         android:adjustViewBounds="true"
-        />
+        android:contentDescription="@string/todo" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
