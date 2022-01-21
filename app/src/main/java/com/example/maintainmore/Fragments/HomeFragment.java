@@ -2,6 +2,7 @@ package com.example.maintainmore.Fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,9 +13,16 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.maintainmore.Adapters.ImageSlideAdapter;
+import com.example.maintainmore.Adapters.PersonalServicesAdapter;
 import com.example.maintainmore.Adapters.ServicesAdapter;
 import com.example.maintainmore.Models.CardModels;
+import com.example.maintainmore.Models.PersonalServicesModel;
 import com.example.maintainmore.R;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
@@ -32,7 +40,7 @@ public class HomeFragment extends Fragment implements ServicesAdapter.viewHolder
     RecyclerView recyclerView_PersonalServices, recyclerView_HomeServices, recyclerView_HomeAppliances;
     SliderView imageSliderCarousel;
 
-    ArrayList<CardModels> PersonalServiceCardModels = new ArrayList<>();
+    FirebaseFirestore db;
 
 
     @Override
@@ -66,30 +74,28 @@ public class HomeFragment extends Fragment implements ServicesAdapter.viewHolder
         imageSliderCarousel.startAutoCycle();
 
 
+        ArrayList<PersonalServicesModel> PersonalServiceCardModels = new ArrayList<>();
+        db = FirebaseFirestore.getInstance();
+
+        db.collection("Personal Services").addSnapshotListener((value, error) -> {
+            PersonalServiceCardModels.clear();
+            assert value != null;
+            for (DocumentSnapshot snapshot: value){
+                PersonalServiceCardModels.add(new PersonalServicesModel(snapshot.getString("serviceName"), snapshot.getString("serviceImage")));
+            }
+            PersonalServicesAdapter servicesAdapter = new PersonalServicesAdapter(PersonalServiceCardModels, getContext());
+            recyclerView_PersonalServices.setAdapter(servicesAdapter);
+
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false );
+            recyclerView_PersonalServices.setLayoutManager(linearLayoutManager);
+        });
 
 
-        PersonalServiceCardModels.add(new CardModels(R.drawable.grapefruit, "Google"));
-        PersonalServiceCardModels.add(new CardModels(R.drawable.common_google_signin_btn_icon_dark, "Google"));
-        PersonalServiceCardModels.add(new CardModels(R.drawable.common_google_signin_btn_icon_dark, "Google is a service"));
-        PersonalServiceCardModels.add(new CardModels(R.drawable.common_google_signin_btn_icon_dark, "Google"));
-        PersonalServiceCardModels.add(new CardModels(R.drawable.common_google_signin_btn_icon_dark, "Google"));
-        PersonalServiceCardModels.add(new CardModels(R.drawable.common_google_signin_btn_icon_dark, "Google"));
-        PersonalServiceCardModels.add(new CardModels(R.drawable.common_google_signin_btn_icon_dark, "Google"));
-        PersonalServiceCardModels.add(new CardModels(R.drawable.common_google_signin_btn_icon_dark, "Google"));
-        PersonalServiceCardModels.add(new CardModels(R.drawable.common_google_signin_btn_icon_dark, "Google"));
-        PersonalServiceCardModels.add(new CardModels(R.drawable.common_google_signin_btn_icon_dark, "Google"));
-        PersonalServiceCardModels.add(new CardModels(R.drawable.common_google_signin_btn_icon_dark, "Google"));
-        PersonalServiceCardModels.add(new CardModels(R.drawable.common_google_signin_btn_icon_dark, "Google"));
-        PersonalServiceCardModels.add(new CardModels(R.drawable.common_google_signin_btn_icon_dark, "Google"));
-        PersonalServiceCardModels.add(new CardModels(R.drawable.common_google_signin_btn_icon_dark, "Google"));
-        PersonalServiceCardModels.add(new CardModels(R.drawable.common_google_signin_btn_icon_dark, "Google"));
-        PersonalServiceCardModels.add(new CardModels(R.drawable.common_google_signin_btn_icon_dark, "Google"));
 
-        ServicesAdapter servicesAdapter = new ServicesAdapter(PersonalServiceCardModels, getContext(), this);
-        recyclerView_PersonalServices.setAdapter(servicesAdapter);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false );
-        recyclerView_PersonalServices.setLayoutManager(linearLayoutManager);
+
+
+
 
 
 
@@ -127,8 +133,8 @@ public class HomeFragment extends Fragment implements ServicesAdapter.viewHolder
 
     @Override
     public void onServiceClick(int position) {
-        String name = PersonalServiceCardModels.get(position).getName();
-
-        Toast.makeText(getContext(),"Item Clicked  " + position + " " + name , Toast.LENGTH_SHORT).show();
+//        String name = PersonalServiceCardModels.get(position).getName();
+//
+//        Toast.makeText(getContext(),"Item Clicked  " + position + " " + name , Toast.LENGTH_SHORT).show();
     }
 }

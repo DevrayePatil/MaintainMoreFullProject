@@ -41,6 +41,11 @@
     <string name="delete_account">Delete Account</string>
     <string name="delete_account_massage">Deleting this Account will remove everything from our system
         and you won\'t be able to access your information</string>
+    <string name="speak_now">Speak now</string>
+    <string name="profile_name">Name :</string>
+    <string name="profile_email">Email :</string>
+    <string name="change">change</string>
+    <string name="save">Save</string>
 
 
 </resources>

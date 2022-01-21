@@ -11,9 +11,11 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 
-
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -26,6 +28,7 @@ public class SignupActivity extends AppCompatActivity {
     String EmailIdPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
     FirebaseAuth firebaseAuth;
+    FirebaseFirestore db;
 
 
     Button buttonLogin, buttonSignup;
@@ -53,6 +56,7 @@ public class SignupActivity extends AppCompatActivity {
         rePassword = findViewById(R.id.editText_rePassword);
 
         firebaseAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
 
         buttonSignup.setOnClickListener(view -> signUp());
@@ -112,6 +116,16 @@ public class SignupActivity extends AppCompatActivity {
                         progressDialog.dismiss();
                         if (task.isSuccessful()) {
 //                                Toast.makeText(SignUp.this, "Successful", Toast.LENGTH_SHORT).show();
+
+                            String userID = Objects.requireNonNull(task.getResult().getUser()).getUid();
+
+                            Map<String, String> user = new HashMap<>();
+                            user.put("name", userName);
+                            user.put("email", emailId);
+                            user.put("password", Password);
+
+                            db.collection("Users").document(userID).set(user);
+
                             new SweetAlertDialog(SignupActivity.this,SweetAlertDialog.SUCCESS_TYPE).setTitleText("SignUp Successful")
                                     .setConfirmClickListener(sweetAlertDialog -> {
 

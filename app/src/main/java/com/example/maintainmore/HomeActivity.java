@@ -1,6 +1,7 @@
 package com.example.maintainmore;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AlertDialog;
@@ -19,6 +20,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
 public class HomeActivity extends AppCompatActivity {
+
+    private static final String TAG = "HomeActivityInfo";
 
     Toolbar toolbar;
 
@@ -56,12 +59,20 @@ public class HomeActivity extends AppCompatActivity {
 
         if (item.getItemId() == R.id.home){
             setFragment = new HomeFragment();
+            Log.i(TAG,"Home Clicked");
+
+
         } else if(item.getItemId() == R.id.booking){
             setFragment = new BookingFragment();
+            Log.i(TAG,"Booking Clicked");
         }else if(item.getItemId() == R.id.profile){
             setFragment = new ProfileFragment();
+            Log.i(TAG,"Profile Clicked");
+
         }else if(item.getItemId() == R.id.notification){
             setFragment = new NotificationsFragment();
+            Log.i(TAG,"Notification  Clicked");
+
         }
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
