@@ -8,7 +8,7 @@
     tools:context=".Fragments.ProfileFragment">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
+        android:id="@+id/profileCard"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
@@ -18,8 +18,14 @@
         app:cardCornerRadius="10dp"
         android:layout_margin="10dp"
         >
+
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/profileCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/profileLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
@@ -63,40 +69,13 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/ic_person"
+                            android:src="@drawable/ic_person_png"
                             android:contentDescription="@string/todo"
                             />
 
                     </com.google.android.material.card.MaterialCardView>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/buttonBackground"
-                    android:layout_width="0dp"
-                    android:layout_height="25dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:background="@drawable/ic_vector"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" >
-
-                    <ImageButton
-                        android:id="@+id/buttonChangePicture"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_camera"
-                        android:padding="2dp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:contentDescription="@string/todo"
-                        />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 
 
@@ -113,7 +92,7 @@
                 android:minWidth="60dp"
                 android:text="@string/profile_name"
                 android:textSize="@dimen/profile_text"
-                android:layout_marginStart="@dimen/text_margin"
+                android:layout_marginStart="10dp"
                 app:layout_constraintStart_toEndOf="@+id/imagePicker"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/textViewEmail"/>
@@ -124,7 +103,7 @@
                 android:layout_height="wrap_content"
                 android:text=""
                 android:textSize="@dimen/profile_text"
-                android:layout_marginStart="@dimen/text_margin"
+                android:layout_marginStart="10dp"
                 app:layout_constraintBottom_toTopOf="@id/displayEmail"
                 app:layout_constraintStart_toEndOf="@+id/textViewName"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -136,7 +115,7 @@
                 android:minWidth="60dp"
                 android:text="@string/profile_email"
                 android:textSize="@dimen/profile_text"
-                android:layout_marginStart="@dimen/text_margin"
+                android:layout_marginStart="@dimen/normal_margin"
                 app:layout_constraintStart_toEndOf="@+id/imagePicker"
                 app:layout_constraintTop_toBottomOf="@+id/textViewName"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -147,12 +126,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""
-                android:textSize="@dimen/profile_text"
-                android:layout_marginStart="@dimen/text_margin"
+                android:autoSizeMaxTextSize="@dimen/profile_text"
+                android:autoSizeMinTextSize="12sp"
+                android:layout_marginStart="@dimen/normal_margin"
+                android:autoSizeTextType="uniform"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textViewEmail"
-                app:layout_constraintTop_toBottomOf="@+id/displayName" />
+                app:layout_constraintTop_toBottomOf="@+id/displayName"
+                tools:targetApi="o" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
 
@@ -164,45 +150,17 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView">
+        app:layout_constraintTop_toBottomOf="@+id/profileCard">
 
 
-        <TextView
-            android:id="@+id/textViewEmailID"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/profile_fragment"
-            android:textSize="32sp"
+        <ListView
+            android:id="@+id/listViewProfile"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-        android:id="@+id/buttonSave"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/save"
-        app:layout_constraintBottom_toTopOf="@+id/buttonDeleteAccount"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-        <Button
-            android:id="@+id/buttonDeleteAccount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/color_danger"
-            android:text="@string/delete_account"
-            app:layout_constraintBottom_toTopOf="@+id/buttonLogout"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <Button
-            android:id="@+id/buttonLogout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/logout"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:ignore="TextContrastCheck" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

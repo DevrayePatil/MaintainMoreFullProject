@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.example.maintainmore.DetailedViewActivity;
+import com.example.maintainmore.ServiceDetailsActivity;
 import com.example.maintainmore.R;
 
 
@@ -34,7 +34,7 @@ public class BookingFragment extends Fragment {
 
         buttonBooking = view.findViewById(R.id.buttonBooking);
 
-        buttonBooking.setOnClickListener(view1 -> startActivity(new Intent(getActivity(), DetailedViewActivity.class)));
+        buttonBooking.setOnClickListener(view1 -> startActivity(new Intent(getActivity(), ServiceDetailsActivity.class)));
 
         return view;
     }

@@ -1,28 +1,25 @@
 package com.example.maintainmore.Fragments;
 
-import static android.app.Activity.RESULT_OK;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.maintainmore.EditProfileActivity;
 import com.example.maintainmore.LoginActivity;
 import com.example.maintainmore.R;
 
@@ -36,7 +33,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 
-import java.io.IOException;
+
 import java.util.Objects;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -44,17 +41,15 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class ProfileFragment extends Fragment {
 
-    private static final int IMAGE_REQUEST_ID = 1;
     private static final String TAG = "ProfileFragmentInfo";
 
-    private Uri uri;
     FirebaseStorage firebaseStorage;
     StorageReference storageReference;
 
-    Button buttonLogout, buttonDeleteAccount, buttonSave;
-    TextView textViewEmail, displayName, displayEmail;
-    ImageButton buttonChangePicture;
+    TextView displayName, displayEmail;
     ImageView profilePicture;
+    ListView listViewProfile;
+    CardView profileCard;
 
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
@@ -81,36 +76,18 @@ public class ProfileFragment extends Fragment {
         firebaseStorage = FirebaseStorage.getInstance();
         storageReference = firebaseStorage.getReference();
 
-        textViewEmail = view.findViewById(R.id.textViewEmailID);
+        listViewProfile = view.findViewById(R.id.listViewProfile);
         profilePicture = view.findViewById(R.id.profilePicture);
 
-        buttonLogout = view.findViewById(R.id.buttonLogout);
-        buttonDeleteAccount = view.findViewById(R.id.buttonDeleteAccount);
-        buttonChangePicture = view.findViewById(R.id.buttonChangePicture);
-        buttonSave = view.findViewById(R.id.buttonSave);
+        profileCard = view.findViewById(R.id.profileCard);
 
         displayName = view.findViewById(R.id.displayName);
         displayEmail = view.findViewById(R.id.displayEmail);
 
 
 
-
-
-
-
         if (firebaseUser!=null) {
-            buttonLogout.setOnClickListener(view1 -> {
-                firebaseAuth.signOut();
-                startActivity(new Intent(getActivity(), LoginActivity.class));
-                requireActivity().finish();
-            });
 
-            buttonDeleteAccount.setOnClickListener(view1 -> deleteAccount());
-            buttonChangePicture.setOnClickListener(view1 -> changePicture());
-            buttonSave.setOnClickListener(view1 -> saveToDatabase());
-
-
-            String mail = Objects.requireNonNull(firebaseUser).getEmail();
             String userID = Objects.requireNonNull(firebaseUser).getUid();
 
 
@@ -125,98 +102,128 @@ public class ProfileFragment extends Fragment {
                     displayName.setText(value.getString("name"));
                     displayEmail.setText(value.getString("email"));
                     Glide.with(requireActivity()).load(value.getString("imageUrl"))
-                            .placeholder(R.drawable.ic_person).into(profilePicture);
+                            .placeholder(R.drawable.ic_person_png).into(profilePicture);
                 }
             });
 
-            textViewEmail.setText(mail);
 
+            profileCard.setOnClickListener(view1 -> startActivity(new Intent(getActivity(), EditProfileActivity.class)));
+
+
+            String[] cities = {"Manage Address", "My Wallet", "Previous Bookings"
+                    , "Settings", "Delete Account", "Sign Out"};
+
+
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
+                    android.R.layout.simple_dropdown_item_1line, cities);
+            listViewProfile.setAdapter(adapter);
+
+            listViewProfile.setOnItemClickListener((adapterView, view12, i, l) ->
+            {
+
+                if ( i == 0){
+                    Log.i(TAG, "Manage Address");
+                    ManageAddress();
+                }
+                else if (i == 1){
+                    Log.i(TAG, "My Wallet");
+                    MyWallet();
+                }
+                else if (i == 2){
+                    Log.i(TAG, "Previous Bookings");
+                    PreviousBookings();
+                }
+                else if (i == 3){
+                    Log.i(TAG, "Settings");
+                    Settings();
+                }
+                else if (i == 4){
+                    Log.i(TAG, "Delete Account");
+                    DeleteAccount();
+                }
+                else {
+                    Log.i(TAG, "Sign Out");
+                    SignOut();
+                }
+            });
         }
+
 
 
 
         return view;
     }
 
-    private void saveToDatabase() {
+    private void SignOut(){
 
-        String userID = Objects.requireNonNull(firebaseUser).getUid();
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+        builder.setTitle(R.string.are_you_sure);
+        builder.setMessage(R.string.do_you_want_to_sign_out);
+        builder.setPositiveButton("Sign Out", (dialogInterface, i) ->{
 
-        if (uri != null){
-            storageReference = storageReference.child("Profile Pictures/" +userID);
-            storageReference.putFile(uri).addOnSuccessListener(taskSnapshot -> {
+            firebaseAuth.signOut();
+            startActivity(new Intent(getActivity(), LoginActivity.class));
+            requireActivity().finishAffinity();
 
-                storageReference.getDownloadUrl().addOnSuccessListener(uri -> setImageURL(String.valueOf(uri)));
+            Toast.makeText(getActivity(), "Sign out successful", Toast.LENGTH_SHORT).show();
 
-                Toast.makeText(getActivity(), "Picture Saved", Toast.LENGTH_SHORT).show();
-
-            }).addOnFailureListener(e -> Toast.makeText(getActivity(), "Failed", Toast.LENGTH_SHORT).show());
-
+        });
+        builder.setNegativeButton("No", (dialogInterface, i) -> dialogInterface.dismiss());
 
 
-        }
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+
+
     }
 
-    private void setImageURL(String uri) {
-        String userID = Objects.requireNonNull(firebaseUser).getUid();
-
-        db.collection("Users").document(userID).update(
-                "imageUrl", uri
-        ).addOnSuccessListener(unused -> Toast.makeText(getActivity(), "link created", Toast.LENGTH_SHORT).show())
-                .addOnFailureListener(e -> Toast.makeText(getActivity(), "Failed to create link" + e, Toast.LENGTH_SHORT).show());
-
-        Log.i(TAG, "Saved link: " + uri);
-    }
-
-    private void deleteAccount() {
+    private void DeleteAccount(){
         AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
         builder.setIcon(R.drawable.ic_delete_forever);
         builder.setTitle(R.string.delete_account);
         builder.setMessage(R.string.delete_account_massage);
         builder.setPositiveButton("Yes", (dialogInterface, i) ->
                 firebaseUser.delete().addOnCompleteListener(task -> {
-            if (task.isSuccessful()){
-                SweetAlertDialog sweetAlertDialog = new SweetAlertDialog(requireActivity(),SweetAlertDialog.SUCCESS_TYPE);
-                sweetAlertDialog.setTitleText("Account Deleted Successful");
-                sweetAlertDialog.setConfirmClickListener(sweetAlertDialog1->{
-                startActivity(new Intent(requireActivity(),LoginActivity.class));
-                requireActivity().finishAffinity();
-                sweetAlertDialog1.dismissWithAnimation();
-                }).setCanceledOnTouchOutside(false);
-                sweetAlertDialog.show();
-            }
-            else {
-                new SweetAlertDialog(requireActivity(),SweetAlertDialog.ERROR_TYPE)
-                        .setTitleText(Objects.requireNonNull(task.getException()).getMessage()).show();
-            }
-        }));
+                    if (task.isSuccessful()){
+                        SweetAlertDialog sweetAlertDialog = new SweetAlertDialog(requireActivity(),SweetAlertDialog.SUCCESS_TYPE);
+                        sweetAlertDialog.setTitleText("Account Deleted Successful");
+                        sweetAlertDialog.setConfirmClickListener(sweetAlertDialog1->{
+                            startActivity(new Intent(requireActivity(),LoginActivity.class));
+                            requireActivity().finishAffinity();
+                            sweetAlertDialog1.dismissWithAnimation();
+                        }).setCanceledOnTouchOutside(false);
+                        sweetAlertDialog.show();
+                    }
+                    else {
+                        new SweetAlertDialog(requireActivity(),SweetAlertDialog.ERROR_TYPE)
+                                .setTitleText(Objects.requireNonNull(task.getException()).getMessage()).show();
+                    }
+                }));
         builder.setNegativeButton("No", (dialogInterface, i) -> dialogInterface.dismiss());
-        builder.show();
-    }
-    
-    private void changePicture(){
-        Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
 
-        startActivityForResult(Intent.createChooser(intent, "Choose Image"),IMAGE_REQUEST_ID);
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    private void Settings(){
 
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == IMAGE_REQUEST_ID && resultCode == RESULT_OK && data != null &
-                (data != null ? data.getData() : null) != null){
-            uri = data.getData();
-            try{
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(requireActivity().getContentResolver(), uri);
-                profilePicture.setImageBitmap(bitmap);
-            }
-            catch (IOException e){
-                e.printStackTrace();
-            }
-        }
+    private void PreviousBookings() {
     }
+
+    private void MyWallet() {
+    }
+
+    private void ManageAddress() {
+    }
+
+
+
+
+
+
+
 }

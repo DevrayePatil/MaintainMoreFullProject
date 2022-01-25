@@ -46,6 +46,31 @@
     <string name="profile_email">Email :</string>
     <string name="change">change</string>
     <string name="save">Save</string>
+    <string name="salon_for_men">Salon for men</string>
+    <string name="dummyText">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
+    <string name="estimate_time">Estimate Time</string>
+    <string name="demo_time">20 min</string>
+    <string name="add_item">Add Items</string>
+    <string name="cancel">Cancel</string>
+    <string name="price_per_item">Price per item</string>
+    <string name="demo_price">0 RS</string>
+    <string name="default_items">0</string>
+    <string name="total_price">Total Price</string>
+    <string name="total_items">Total Items</string>
+
+    <string name="demo_items">0</string>
+    <string name="default_price">256 RS</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="are_you_sure">Are you sure ?</string>
+    <string name="do_you_want_to_sign_out">Do you want to sign out</string>
+    <string name="dummy_name" > Dummy Name</string>
+    <string name="dummy_email">dummy@mail.com</string>
+    <string name="enter_your_name">Enter your Name</string>
+    <string name="enter_phone_number" >Enter Phone number</string>
+    <string name="dob">Date of borth</string>
+    <string name="label_1">Male</string>
+    <string name="label_2">Female</string>
+    <string name="gender">Gender</string>
 
 
 </resources>

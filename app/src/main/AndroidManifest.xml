@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MaintainMore.Splash">
         <activity
-            android:name=".ViewServiceActivity"
+            android:name=".EditProfileActivity"
             android:exported="false" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -33,7 +33,7 @@
             android:exported="false"
             android:label="@string/title_activity_maps" />
         <activity
-            android:name=".DetailedViewActivity"
+            android:name=".ServiceDetailsActivity"
             android:exported="false" />
         <activity
             android:name=".SignupActivity"

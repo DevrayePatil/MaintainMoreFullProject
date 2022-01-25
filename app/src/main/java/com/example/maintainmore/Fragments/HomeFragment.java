@@ -1,5 +1,6 @@
 package com.example.maintainmore.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 
@@ -13,10 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-
 import com.example.maintainmore.Adapters.ImageSlideAdapter;
 import com.example.maintainmore.Adapters.PersonalServicesAdapter;
 import com.example.maintainmore.Adapters.ServicesAdapter;
+import com.example.maintainmore.ServiceDetailsActivity;
 import com.example.maintainmore.Models.CardModels;
 import com.example.maintainmore.Models.PersonalServicesModel;
 import com.example.maintainmore.R;
@@ -144,6 +145,7 @@ public class HomeFragment extends Fragment implements ServicesAdapter.viewHolder
         Log.i(TAG,"Name: " + name);
         Log.i(TAG,"Image URL: " + imageUrl);
 
+        startActivity(new Intent(getActivity(), ServiceDetailsActivity.class));
 
     }
 
