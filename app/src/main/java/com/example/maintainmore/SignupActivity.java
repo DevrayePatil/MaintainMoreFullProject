@@ -123,6 +123,7 @@ public class SignupActivity extends AppCompatActivity {
                             user.put("name", userName);
                             user.put("email", emailId);
                             user.put("password", Password);
+                            user.put("walletBalanceInINR","0");
 
                             db.collection("Users").document(userID).set(user);
 

@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.maintainmore.Models.CardModels;
-import com.example.maintainmore.Models.PersonalServicesModel;
 import com.example.maintainmore.R;
 
 import java.util.ArrayList;
@@ -35,7 +34,7 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.viewHo
     @NonNull
     @Override
     public viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.services_card,parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.card_services,parent, false);
         return new viewHolder(view, onServiceClickListener);
     }
 

@@ -63,14 +63,32 @@
     <string name="edit_profile">Edit Profile</string>
     <string name="are_you_sure">Are you sure ?</string>
     <string name="do_you_want_to_sign_out">Do you want to sign out</string>
-    <string name="dummy_name" > Dummy Name</string>
+    <string name="dummy_name"> Dummy Name</string>
     <string name="dummy_email">dummy@mail.com</string>
     <string name="enter_your_name">Enter your Name</string>
-    <string name="enter_phone_number" >Enter Phone number</string>
+    <string name="enter_phone_number">Enter Phone number</string>
     <string name="dob">Date of borth</string>
     <string name="label_1">Male</string>
     <string name="label_2">Female</string>
     <string name="gender">Gender</string>
+    <string name="total_balance">Total Balance</string>
+    <string name="currency_symbol">₹</string>
+    <string name="dummy_balance">1000</string>
+    <string name="add_money">Add Money</string>
+    <string name="withdraw">Withdraw</string>
+    <string name="choose_date">Choose Date</string>
+    <string name="dummy_date">19 feb 2022</string>
+    <string name="choose_time">Choose Time</string>
+    <string name="address">Address</string>
+    <string name="location">Location</string>
+    <string name="current_location">Current Location</string>
+    <string name="pick_time">Pick Time</string>
+    <string name="pick_date">Pick Date</string>
+    <string name="service_for_male">Service For Male</string>
+    <string name="service_for_female">Service For Female</string>
+    <string name="total_services">Total Services:</string>
+    <string name="status">Status</string>
+    <string name="update">Update</string>
 
 
 </resources>

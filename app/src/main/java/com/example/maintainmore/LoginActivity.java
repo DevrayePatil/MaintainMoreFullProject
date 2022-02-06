@@ -14,6 +14,8 @@ import android.widget.EditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.Objects;
+
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class LoginActivity extends AppCompatActivity {
@@ -31,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
 
         FirebaseUser user = firebaseAuth.getCurrentUser();
         if (user!=null) {
-            startActivity(new Intent(this, HomeActivity.class));
+            startActivity(new Intent(this, MainActivity.class));
         }
         super.onStart();
     }
@@ -58,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
         buttonLogin.setOnClickListener(view -> Login());
-        buttonSkip.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), HomeActivity.class)));
+        buttonSkip.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), MainActivity.class)));
         buttonShowMap.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), MapsActivity.class)));
         buttonSignup.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), SignupActivity.class)));
 
@@ -100,7 +102,7 @@ public class LoginActivity extends AppCompatActivity {
                         SweetAlertDialog sweetAlertDialog= new SweetAlertDialog(LoginActivity.this,SweetAlertDialog.SUCCESS_TYPE);
                         sweetAlertDialog.setTitleText("Login Successful");
                         sweetAlertDialog.setConfirmClickListener(sweetAlertDialog1 -> {
-                            startActivity(new Intent(getApplicationContext(),HomeActivity.class));
+                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
                             finish();
                             sweetAlertDialog1.dismissWithAnimation();
                         }).setCanceledOnTouchOutside(false);
@@ -110,7 +112,8 @@ public class LoginActivity extends AppCompatActivity {
                     } else {
 
 //                            Toast.makeText(MainActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
-                        new SweetAlertDialog(LoginActivity.this,SweetAlertDialog.ERROR_TYPE).setTitleText("Invalid Email or Password").show();
+                        new SweetAlertDialog(LoginActivity.this,SweetAlertDialog.ERROR_TYPE).
+                                setTitleText(Objects.requireNonNull(task.getException()).getMessage()).show();
                     }
                 });
 

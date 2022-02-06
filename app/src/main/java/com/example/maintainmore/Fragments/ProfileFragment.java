@@ -21,9 +21,12 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.maintainmore.EditProfileActivity;
 import com.example.maintainmore.LoginActivity;
+import com.example.maintainmore.ManageAddressActivity;
 import com.example.maintainmore.R;
 
 
+import com.example.maintainmore.SettingsActivity;
+import com.example.maintainmore.WalletActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -85,12 +88,15 @@ public class ProfileFragment extends Fragment {
         displayEmail = view.findViewById(R.id.displayEmail);
 
 
+        CurrentUser();
 
+        return view;
+    }
+
+    private void CurrentUser() {
         if (firebaseUser!=null) {
 
             String userID = Objects.requireNonNull(firebaseUser).getUid();
-
-
 
             documentReference = db.collection("Users").document(userID);
 
@@ -106,52 +112,50 @@ public class ProfileFragment extends Fragment {
                 }
             });
 
-
             profileCard.setOnClickListener(view1 -> startActivity(new Intent(getActivity(), EditProfileActivity.class)));
 
+            ProfileList();
+        }
+    }
 
-            String[] cities = {"Manage Address", "My Wallet", "Previous Bookings"
-                    , "Settings", "Delete Account", "Sign Out"};
+    private void ProfileList() {
+
+        String[] cities = {"Manage Address", "My Wallet"
+                , "Settings", "Delete Account", "Sign Out"};
 
 
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
-                    android.R.layout.simple_dropdown_item_1line, cities);
-            listViewProfile.setAdapter(adapter);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
+                android.R.layout.simple_dropdown_item_1line, cities);
+        listViewProfile.setAdapter(adapter);
 
-            listViewProfile.setOnItemClickListener((adapterView, view12, i, l) ->
-            {
+        listViewProfile.setOnItemClickListener((adapterView, view12, i, l) ->
+        {
 
-                if ( i == 0){
+            switch (i){
+                case 0:
                     Log.i(TAG, "Manage Address");
                     ManageAddress();
-                }
-                else if (i == 1){
+                    break;
+                case 1:
                     Log.i(TAG, "My Wallet");
                     MyWallet();
-                }
-                else if (i == 2){
-                    Log.i(TAG, "Previous Bookings");
-                    PreviousBookings();
-                }
-                else if (i == 3){
+                    break;
+                case 2:
                     Log.i(TAG, "Settings");
                     Settings();
-                }
-                else if (i == 4){
+                    break;
+                case 3:
                     Log.i(TAG, "Delete Account");
                     DeleteAccount();
-                }
-                else {
+                    break;
+                case 4:
                     Log.i(TAG, "Sign Out");
                     SignOut();
-                }
-            });
-        }
+                    break;
+            }
 
+        });
 
-
-
-        return view;
     }
 
     private void SignOut(){
@@ -163,29 +167,31 @@ public class ProfileFragment extends Fragment {
 
             firebaseAuth.signOut();
             startActivity(new Intent(getActivity(), LoginActivity.class));
-            requireActivity().finishAffinity();
+            requireActivity().finish();
 
             Toast.makeText(getActivity(), "Sign out successful", Toast.LENGTH_SHORT).show();
 
         });
         builder.setNegativeButton("No", (dialogInterface, i) -> dialogInterface.dismiss());
 
-
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
-
-
 
     }
 
     private void DeleteAccount(){
+        String userID = Objects.requireNonNull(firebaseUser).getUid();
+
         AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
         builder.setIcon(R.drawable.ic_delete_forever);
         builder.setTitle(R.string.delete_account);
         builder.setMessage(R.string.delete_account_massage);
         builder.setPositiveButton("Yes", (dialogInterface, i) ->
                 firebaseUser.delete().addOnCompleteListener(task -> {
+                    db.collection("Users").document(userID).delete()
+                            .addOnSuccessListener(unused -> Log.i(TAG, "ServiceDeleted"));
                     if (task.isSuccessful()){
+
                         SweetAlertDialog sweetAlertDialog = new SweetAlertDialog(requireActivity(),SweetAlertDialog.SUCCESS_TYPE);
                         sweetAlertDialog.setTitleText("Account Deleted Successful");
                         sweetAlertDialog.setConfirmClickListener(sweetAlertDialog1->{
@@ -202,28 +208,21 @@ public class ProfileFragment extends Fragment {
                 }));
         builder.setNegativeButton("No", (dialogInterface, i) -> dialogInterface.dismiss());
 
-
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
 
     private void Settings(){
-
+        startActivity(new Intent(getActivity(), SettingsActivity.class));
     }
 
-    private void PreviousBookings() {
-    }
 
     private void MyWallet() {
+        startActivity(new Intent(getActivity(), WalletActivity.class));
     }
 
     private void ManageAddress() {
+        startActivity(new Intent(getActivity(), ManageAddressActivity.class));
     }
-
-
-
-
-
-
 
 }

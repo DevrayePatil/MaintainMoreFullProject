@@ -11,8 +11,8 @@ import android.os.Bundle;
 
 import android.provider.MediaStore;
 import android.util.Log;
+
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -21,6 +21,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.datepicker.CalendarConstraints;
+import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -37,7 +40,9 @@ public class EditProfileActivity extends AppCompatActivity {
     private static final String TAG = "EditProfileActivityInfo";
     String checkedName;
 
-    private Uri uri;
+    String userID;
+
+    Uri uri;
     FirebaseStorage firebaseStorage;
     StorageReference storageReference;
 
@@ -48,11 +53,13 @@ public class EditProfileActivity extends AppCompatActivity {
     DocumentReference documentReference;
 
 
+
+
     TextView displayName, displayEmail;
     ImageView profilePicture;
-    EditText fullName, email, phoneNumber, dateOfBirth;
+    TextInputEditText fullName, email, phoneNumber, dateOfBirth;
 
-    Button buttonCancel, buttonSave, buttonSavePicture;
+    Button buttonCancel, buttonSave;
     ImageButton buttonChangePicture;
 
     RadioGroup radioGroup;
@@ -87,7 +94,6 @@ public class EditProfileActivity extends AppCompatActivity {
         buttonCancel = findViewById(R.id.buttonCancel);
         buttonSave = findViewById(R.id.buttonSave);
         buttonChangePicture = findViewById(R.id.buttonChangePicture);
-        buttonSavePicture = findViewById(R.id.buttonSavePicture);
 
         radioGroup = findViewById(R.id.radioGroup);
 
@@ -95,7 +101,13 @@ public class EditProfileActivity extends AppCompatActivity {
         buttonCancel.setOnClickListener(view -> finish());
         buttonSave.setOnClickListener(view -> UpdatePersonalInformation());
         buttonChangePicture.setOnClickListener(view -> ChangePicture());
-        buttonSavePicture.setOnClickListener(view -> SavePicture());
+
+        dateOfBirth.setShowSoftInputOnFocus(false);
+        dateOfBirth.setOnClickListener(view -> DatePickerForDOB());
+
+
+
+
 
         if (firebaseUser!=null) {
             LoginUserInfo();
@@ -134,10 +146,27 @@ public class EditProfileActivity extends AppCompatActivity {
         radioButton = findViewById(radioButtonID);
         checkedName = radioButton.getText().toString();
 
-        String FullName = fullName.getText().toString();
+        email.setEnabled(false);
+
+        String FullName = Objects.requireNonNull(fullName.getText()).toString();
 //        String EmailID = email.getText().toString();
-        String PhoneNumber = phoneNumber.getText().toString();
-        String DOB = dateOfBirth.getText().toString();
+        String PhoneNumber = Objects.requireNonNull(phoneNumber.getText()).toString();
+        String DOB = Objects.requireNonNull(dateOfBirth.getText()).toString();
+
+
+        if (FullName.equals("")){
+            Toast.makeText(this, "Please Enter your Name", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (PhoneNumber.equals("")){
+            Toast.makeText(this, "Please Enter your Phone number", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (DOB.equals("")){
+            Toast.makeText(this, "Please Enter your Date of Birth", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
 
         db.collection("Users").document(userID).update(
                 "name", FullName,
@@ -153,24 +182,8 @@ public class EditProfileActivity extends AppCompatActivity {
                                 Toast.LENGTH_SHORT).show());
 
     }
-    private void SavePicture() {
-
-        String userID = Objects.requireNonNull(firebaseUser).getUid();
-
-        if (uri != null){
-            storageReference = storageReference.child("Profile Pictures/" +userID);
-            storageReference.putFile(uri).addOnSuccessListener(taskSnapshot -> {
-
-                storageReference.getDownloadUrl().addOnSuccessListener(uri -> setImageURL(String.valueOf(uri)));
-
-                Toast.makeText(getApplicationContext(), "Picture Saved", Toast.LENGTH_SHORT).show();
-
-            }).addOnFailureListener(e -> Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show());
 
 
-
-        }
-    }
 
     private void setImageURL(String uri) {
         String userID = Objects.requireNonNull(firebaseUser).getUid();
@@ -224,6 +237,29 @@ public class EditProfileActivity extends AppCompatActivity {
 
     }
 
+    private void DatePickerForDOB() {
+
+        long today = MaterialDatePicker.todayInUtcMilliseconds();
+
+        CalendarConstraints.Builder constraintBuilder = new CalendarConstraints.Builder();
+//        constraintBuilder.setValidator(DateValidatorPointForward.now());
+
+        MaterialDatePicker.Builder builder = MaterialDatePicker.Builder.datePicker();
+        builder.setTitleText("Choose Date");
+        builder.setSelection(today);
+        builder.setCalendarConstraints(constraintBuilder.build());
+        MaterialDatePicker materialDatePicker = builder.build();
+
+        materialDatePicker.show(getSupportFragmentManager(),"DATE_PICKET");
+
+        materialDatePicker.addOnPositiveButtonClickListener(selection ->
+
+                dateOfBirth.setText(materialDatePicker.getHeaderText())
+        );
+
+
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -234,10 +270,21 @@ public class EditProfileActivity extends AppCompatActivity {
             try{
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), uri);
                 profilePicture.setImageBitmap(bitmap);
+
+                storageReference = storageReference.child("Profile Pictures/" +userID);
+                storageReference.putFile(uri).addOnSuccessListener(taskSnapshot -> {
+
+                    storageReference.getDownloadUrl().addOnSuccessListener(uri -> setImageURL(String.valueOf(uri)));
+
+                    Toast.makeText(getApplicationContext(), "Picture Saved", Toast.LENGTH_SHORT).show();
+
+                }).addOnFailureListener(e -> Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show());
             }
             catch (IOException e){
                 e.printStackTrace();
             }
         }
     }
+
+
 }

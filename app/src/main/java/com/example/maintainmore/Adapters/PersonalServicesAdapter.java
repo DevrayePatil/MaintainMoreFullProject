@@ -33,7 +33,7 @@ public class PersonalServicesAdapter extends RecyclerView.Adapter<PersonalServic
     @NonNull
     @Override
     public viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.services_card,parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.card_services,parent, false);
         return new viewHolder(view, personalServiceClickListener);
 
     }
@@ -43,7 +43,7 @@ public class PersonalServicesAdapter extends RecyclerView.Adapter<PersonalServic
         PersonalServicesModel model = servicesModel.get(position);
         holder.textView.setText(model.getName());
 
-        Glide.with(context).load(model.getImage()).into(holder.imageView);
+        Glide.with(context).load(model.getIconUrl()).placeholder(R.drawable.ic_account).into(holder.imageView);
     }
 
     @Override

@@ -19,23 +19,20 @@ import com.example.maintainmore.Fragments.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
-public class HomeActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "HomeActivityInfo";
 
     Toolbar toolbar;
 
-
-
     BottomNavigationView bottomNavigationView;
     LinearLayout linearLayout;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SplashScreen.installSplashScreen(this);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_main);
 
         setSupportActionBar(toolbar);
 
@@ -57,19 +54,21 @@ public class HomeActivity extends AppCompatActivity {
 
         Fragment setFragment = null;
 
+
         if (item.getItemId() == R.id.home){
             setFragment = new HomeFragment();
             Log.i(TAG,"Home Clicked");
-
-
-        } else if(item.getItemId() == R.id.booking){
+        }
+        else if(item.getItemId() == R.id.booking){
             setFragment = new BookingFragment();
             Log.i(TAG,"Booking Clicked");
-        }else if(item.getItemId() == R.id.profile){
+        }
+        else if(item.getItemId() == R.id.profile){
             setFragment = new ProfileFragment();
             Log.i(TAG,"Profile Clicked");
 
-        }else if(item.getItemId() == R.id.notification){
+        }
+        else if(item.getItemId() == R.id.notification){
             setFragment = new NotificationsFragment();
             Log.i(TAG,"Notification  Clicked");
 

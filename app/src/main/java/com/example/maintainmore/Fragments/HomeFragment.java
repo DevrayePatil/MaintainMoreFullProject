@@ -17,7 +17,7 @@ import android.widget.Toast;
 import com.example.maintainmore.Adapters.ImageSlideAdapter;
 import com.example.maintainmore.Adapters.PersonalServicesAdapter;
 import com.example.maintainmore.Adapters.ServicesAdapter;
-import com.example.maintainmore.ServiceDetailsActivity;
+import com.example.maintainmore.ServiceBookingActivity;
 import com.example.maintainmore.Models.CardModels;
 import com.example.maintainmore.Models.PersonalServicesModel;
 import com.example.maintainmore.R;
@@ -89,7 +89,13 @@ public class HomeFragment extends Fragment implements ServicesAdapter.viewHolder
             personalServicesModels.clear();
             assert value != null;
             for (DocumentSnapshot snapshot: value){
-                personalServicesModels.add(new PersonalServicesModel(snapshot.getString("serviceName"), snapshot.getString("serviceImage")));
+                personalServicesModels.add(new PersonalServicesModel(
+                        snapshot.getString("serviceType"), snapshot.getString("serviceName"),
+                        snapshot.getString("serviceDescription"),snapshot.getString("requiredTime"),
+                        snapshot.getString("servicePrice"), snapshot.getString("iconUrl"),
+                        snapshot.getString("backgroundImageUrl")
+                        )
+                );
             }
             PersonalServicesAdapter servicesAdapter = new PersonalServicesAdapter(personalServicesModels, getContext(),this);
             recyclerView_PersonalServices.setAdapter(servicesAdapter);
@@ -102,8 +108,8 @@ public class HomeFragment extends Fragment implements ServicesAdapter.viewHolder
 
 
         HomeServiceCardModels.add(new CardModels(R.drawable.grapefruit, "Google"));
-        HomeServiceCardModels.add(new CardModels(R.drawable.common_google_signin_btn_icon_dark, "Google"));
-        HomeServiceCardModels.add(new CardModels(R.drawable.common_google_signin_btn_icon_dark, "Google is a service"));
+        HomeServiceCardModels.add(new CardModels(R.drawable.ic_google, "Google"));
+        HomeServiceCardModels.add(new CardModels(R.drawable.ic_google, "Google is a service"));
 
         ServicesAdapter homeServicesAdapter = new ServicesAdapter(HomeServiceCardModels, getContext(),this);
         recyclerView_HomeServices.setAdapter(homeServicesAdapter);
@@ -115,8 +121,8 @@ public class HomeFragment extends Fragment implements ServicesAdapter.viewHolder
         ArrayList<CardModels> HomeAppliancesCardModels = new ArrayList<>();
 
         HomeAppliancesCardModels.add(new CardModels(R.drawable.grapefruit, "Google"));
-        HomeAppliancesCardModels.add(new CardModels(R.drawable.common_google_signin_btn_icon_dark, "Google"));
-        HomeAppliancesCardModels.add(new CardModels(R.drawable.common_google_signin_btn_icon_dark, "Google is a service"));
+        HomeAppliancesCardModels.add(new CardModels(R.drawable.ic_google, "Google"));
+        HomeAppliancesCardModels.add(new CardModels(R.drawable.ic_google, "Google is a service"));
 
         ServicesAdapter homeAppliancesAdapter= new ServicesAdapter(HomeAppliancesCardModels, getContext(),this);
         recyclerView_HomeAppliances.setAdapter(homeAppliancesAdapter);
@@ -141,12 +147,37 @@ public class HomeFragment extends Fragment implements ServicesAdapter.viewHolder
     @Override
     public void onPersonalServiceClick(int position) {
          String name = personalServicesModels.get(position).getName();
-         String imageUrl = personalServicesModels.get(position).getImage();
+         String description = personalServicesModels.get(position).getDescription();
+         String serviceType = personalServicesModels.get(position).getServiceType();
+         String requiredTime = personalServicesModels.get(position).getTimeRequired();
+         String price = personalServicesModels.get(position).getPrice();
+
+         String iconUrl = personalServicesModels.get(position).getIconUrl();
+         String backgroundImageUrl = personalServicesModels.get(position).getBackgroundImageUrl();
+
+
         Log.i(TAG,"Name: " + name);
-        Log.i(TAG,"Image URL: " + imageUrl);
+        Log.i(TAG,"Description: " + description);
+        Log.i(TAG,"ServiceType: " + serviceType);
+        Log.i(TAG,"Required time: " + requiredTime);
+        Log.i(TAG,"Price: " + price);
 
-        startActivity(new Intent(getActivity(), ServiceDetailsActivity.class));
+        Log.i(TAG,"iconUrl: " + iconUrl);
+        Log.i(TAG,"backgroundImageUrl: " + backgroundImageUrl);
 
+        Intent intent = new Intent(getActivity(), ServiceBookingActivity.class);
+
+        intent.putExtra("Name", name);
+        intent.putExtra("Description", description);
+        intent.putExtra("ServiceType", serviceType);
+        intent.putExtra("RequiredTime", requiredTime);
+        intent.putExtra("Price", price);
+
+        intent.putExtra("IconUrl",iconUrl);
+        intent.putExtra("BackgroundImageUrl",backgroundImageUrl);
+
+
+        startActivity(intent);
     }
 
 }
