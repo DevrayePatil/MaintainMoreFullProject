@@ -107,7 +107,7 @@ public class HomeFragment extends Fragment implements ServicesAdapter.viewHolder
 
 
 
-        HomeServiceCardModels.add(new CardModels(R.drawable.grapefruit, "Google"));
+        HomeServiceCardModels.add(new CardModels(R.drawable.ic_google, "Google"));
         HomeServiceCardModels.add(new CardModels(R.drawable.ic_google, "Google"));
         HomeServiceCardModels.add(new CardModels(R.drawable.ic_google, "Google is a service"));
 
@@ -120,7 +120,7 @@ public class HomeFragment extends Fragment implements ServicesAdapter.viewHolder
 
         ArrayList<CardModels> HomeAppliancesCardModels = new ArrayList<>();
 
-        HomeAppliancesCardModels.add(new CardModels(R.drawable.grapefruit, "Google"));
+        HomeAppliancesCardModels.add(new CardModels(R.drawable.ic_google, "Google"));
         HomeAppliancesCardModels.add(new CardModels(R.drawable.ic_google, "Google"));
         HomeAppliancesCardModels.add(new CardModels(R.drawable.ic_google, "Google is a service"));
 

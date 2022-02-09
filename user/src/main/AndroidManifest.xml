@@ -18,27 +18,27 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MaintainMore.Splash">
         <activity
-            android:name=".UpdateBookingActivity"
+            android:name="com.example.maintainmore.UpdateBookingActivity"
             android:exported="false" />
         <activity
-            android:name=".ManageAddressActivity"
+            android:name="com.example.maintainmore.ManageAddressActivity"
             android:exported="false"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName="com.example.maintainmore.MainActivity" />
         <activity
-            android:name=".BookingPaymentActivity"
+            android:name="com.example.maintainmore.BookingPaymentActivity"
             android:exported="false" />
         <activity
-            android:name=".PaymentsActivity"
+            android:name="com.example.maintainmore.PaymentsActivity"
             android:exported="false" />
         <activity
-            android:name=".WalletActivity"
+            android:name="com.example.maintainmore.WalletActivity"
             android:exported="false" />
         <activity
-            android:name=".SettingsActivity"
+            android:name="com.example.maintainmore.SettingsActivity"
             android:exported="false"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName="com.example.maintainmore.MainActivity" />
         <activity
-            android:name=".EditProfileActivity"
+            android:name="com.example.maintainmore.EditProfileActivity"
             android:exported="false" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -53,20 +53,16 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".MapsActivity"
-            android:exported="false"
-            android:label="@string/title_activity_maps" />
-        <activity
-            android:name=".ServiceBookingActivity"
+            android:name="com.example.maintainmore.ServiceBookingActivity"
             android:exported="false" />
         <activity
-            android:name=".SignupActivity"
+            android:name="com.example.maintainmore.SignupActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.example.maintainmore.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name="com.example.maintainmore.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -75,7 +71,7 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".FetchAddressIntentService" />
+        <service android:name="com.example.maintainmore.FetchAddressIntentService" />
     </application>
 
 </manifest>

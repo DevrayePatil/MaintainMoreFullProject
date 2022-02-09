@@ -21,7 +21,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = "HomeActivityInfo";
+    private static final String TAG = "MainActivityInfo";
 
     Toolbar toolbar;
 

@@ -1,15 +1,15 @@
 package com.example.maintainmore;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.splashscreen.SplashScreen;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.splashscreen.SplashScreen;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -23,7 +23,7 @@ public class LoginActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
 
     Toolbar toolbar;
-    Button buttonSkip, buttonSignup, buttonShowMap, buttonLogin;
+    Button buttonSignup, buttonLogin;
 
     EditText email, password;
 
@@ -51,17 +51,13 @@ public class LoginActivity extends AppCompatActivity {
 
 
         buttonLogin = findViewById(R.id.buttonLogin);
-        buttonSkip = findViewById(R.id.buttonSkip);
         buttonSignup = findViewById(R.id.buttonSignup);
-        buttonShowMap = findViewById(R.id.buttonShowMap);
 
         email = findViewById(R.id.editText_email);
         password = findViewById(R.id.editText_password);
 
 
         buttonLogin.setOnClickListener(view -> Login());
-        buttonSkip.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), MainActivity.class)));
-        buttonShowMap.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), MapsActivity.class)));
         buttonSignup.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), SignupActivity.class)));
 
 

@@ -7,4 +7,6 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "Maintain More"
-include ':app'
+include ':administrator'
+include ':technician'
+include ':user'

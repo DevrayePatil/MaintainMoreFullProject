@@ -133,7 +133,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 displayName.setText(value.getString("name"));
                 displayEmail.setText(value.getString("email"));
                 Glide.with(getApplicationContext()).load(value.getString("imageUrl"))
-                        .placeholder(R.drawable.ic_person_png).into(profilePicture);
+                        .placeholder(R.drawable.ic_person).into(profilePicture);
             }
         });
     }
